@@ -1,0 +1,19 @@
+#!/bin/sh
+VPN_NAME="ch51.nordvpn.com.udp"
+ESSID=$(iwgetid -r)
+
+interface=$1 status=$2
+case $status in
+  up|vpn-down)
+    if iwgetid | grep -qs ":\"$ESSID\""; then
+      nmcli con up id "$VPN_NAME" passwd-file /etc/NetworkManager/dispatcher.d/passwd
+    fi
+    ;;
+  down)
+    if iwgetid | grep -qs ":\"$ESSID\""; then
+      if nmcli con show --active | grep "$VPN_NAME"; then
+        nmcli con down id "$VPN_NAME"
+      fi
+    fi
+    ;;
+esac
