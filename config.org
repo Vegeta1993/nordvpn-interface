@@ -1,0 +1,20 @@
+* Setup file for ufw is in nordvpn.sh
+- change the internal IP address if needed
+- Change the IP of VPN server
+* Download ~openvpn-systemd-resolvd~ from apt
+- and download ~sudo wget https://raw.githubusercontent.com/jonathanio/update-systemd-resolved/master/update-systemd-resolved -P /etc/openvpn/scripts/~ for automatic resolving DNS
+- and add following lines in the bottom
+
+#+BEGIN_SRC bash
+script-security 2
+up /etc/openvpn/update-systemd-resolved
+down /etc/openvpn/update-systemd-resolved
+down-pre
+dhcp-option DOMAIN-ROUTE .
+#+END_SRC
+
+* Nordvpn client 
+- [[https://nordvpn.com/download/linux/][nordvpn client]]
+- Did not work with kill switch
+- But convinient to automatically select network, obfuscation, cybersec etc
+
